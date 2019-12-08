@@ -20,11 +20,17 @@ var roleHarvester = {
             //             structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
             //     }
             // });
-            const target = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-                filter: { structureType: STRUCTURE_SPAWN }
+            const targets = creep.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType === STRUCTURE_EXTENSION ||
+                        structure.structureType === STRUCTURE_SPAWN ||
+                        structure.structureType === STRUCTURE_TOWER) &&
+                        structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+                }
             });
+            const target = creep.pos.findClosestByPath(targets);
             //var targets = [Game.getObjectById('5de7c4f8afe1b414e754fe99')];
-            console.log(target);
+            //console.log(target);
             if(target) {
                 if(creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});

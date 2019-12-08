@@ -66,5 +66,10 @@ function respawnCreeps() {
         console.log('Spawning new upgrader: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE,MOVE], newName,
             {memory: {role: 'upgrader'}});
+    } else if(_.filter(Game.creeps, (creep) => creep.memory.role === 'builder').length < config.creeps.builders.max) {
+        let newName = 'Builder' + Game.time;
+        console.log('Spawning new builder: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE,MOVE], newName,
+            {memory: {role: 'builder'}});
     }
 }
