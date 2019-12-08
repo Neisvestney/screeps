@@ -14,23 +14,23 @@ function countFree(target) {
         }
     }
     return(free);
-};
+}
 module.exports.countFree = countFree;
 
 
 module.exports.findNearest = function (creep, whatFind = FIND_SOURCES) {
-    const sources = creep.room.find(FIND_SOURCES);
-    //const sources = creep.pos.findClosestByPath(FIND_SOURCES);
-    let target;
-    for (let source in sources) {
-        let free = countFree(sources[source]);
-        if (free === 0)
-            sources.splice(source);
+    let target = creep.pos.findInRange(whatFind, 1)[0];
+    if(!target) {
+        const find = creep.room.find(whatFind);
+        for (let i in find) {
+            let free = countFree(find[i]);
+            if (free === 0)
+                find.splice(i);
+        }
+        target = creep.pos.findClosestByPath(find);
+        if (target === null) {
+            target = creep.pos.findClosestByPath(whatFind);
+        }
     }
-    target = creep.pos.findClosestByPath(sources);
-    if (target === null) {
-        target = creep.pos.findClosestByPath(FIND_SOURCES);
-    }
-
     return target;
 };
