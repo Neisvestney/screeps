@@ -18,9 +18,14 @@ function countFree(target) {
 module.exports.countFree = countFree;
 
 
-module.exports.findNearest = function (creep, whatFind = FIND_SOURCES) {
+module.exports.findNearest = function (creep, whatFind = FIND_SOURCES, alterFind = FIND_RUINS) {
     let target = creep.pos.findInRange(whatFind, 1)[0];
     if(!target) {
+        if (alterFind) {
+            let altTarget = creep.pos.findClosestByPath(alterFind);
+            if (altTarget)
+                return altTarget
+        }
         const find = creep.room.find(whatFind);
         for (let i in find) {
             let free = countFree(find[i]);
