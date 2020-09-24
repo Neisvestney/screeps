@@ -3,6 +3,7 @@ const config = require('config');
 const roleHarvester = require('role.harvester');
 const roleUpgrader = require('role.upgrader');
 const roleBuilder = require('role.builder');
+const roleRepairer = require('role.repairer');
 
 module.exports.loop = function () {
 
@@ -45,6 +46,9 @@ module.exports.loop = function () {
         if(creep.memory.role === 'builder') {
             roleBuilder.run(creep);
         }
+        if(creep.memory.role === 'repairer') {
+            roleRepairer.run(creep);
+        }
     }
 };
 
@@ -71,5 +75,10 @@ function respawnCreeps() {
         console.log('Spawning new builder: ' + newName);
         Game.spawns['HomeSpawn'].spawnCreep([WORK,CARRY,MOVE,MOVE,MOVE], newName,
             {memory: {role: 'builder'}});
+    } else if(_.filter(Game.creeps, (creep) => creep.memory.role === 'repairer').length < config.creeps.repairers.max) {
+        let newName = 'Repairer' + Game.time;
+        console.log('Spawning new repairer: ' + newName);
+        Game.spawns['HomeSpawn'].spawnCreep([WORK,CARRY,MOVE,MOVE,MOVE], newName,
+            {memory: {role: 'repairer'}});
     }
 }
