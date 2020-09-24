@@ -6,13 +6,13 @@ const roleBuilder = require('role.builder');
 
 module.exports.loop = function () {
 
-    const tower = Game.getObjectById('64a8497479a95c52ebf1ac87');
+    const tower = Game.getObjectById('5ded7997c54c4cad5cf71019');
     if(tower) {
         const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => structure.hits < structure.hitsMax
         });
         if(closestDamagedStructure) {
-            tower.repair(closestDamagedStructure);
+            //tower.repair(closestDamagedStructure);
         }
 
         var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
@@ -25,12 +25,12 @@ module.exports.loop = function () {
 
     respawnCreeps();
 
-    if(Game.spawns['Spawn1'].spawning) {
-        var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
-        Game.spawns['Spawn1'].room.visual.text(
+    if(Game.spawns['HomeSpawn'].spawning) {
+        var spawningCreep = Game.creeps[Game.spawns['HomeSpawn'].spawning.name];
+        Game.spawns['HomeSpawn'].room.visual.text(
             '🛠️' + spawningCreep.memory.role,
-            Game.spawns['Spawn1'].pos.x + 1,
-            Game.spawns['Spawn1'].pos.y,
+            Game.spawns['HomeSpawn'].pos.x + 1,
+            Game.spawns['HomeSpawn'].pos.y,
             {align: 'left', opacity: 0.8});
     }
 
@@ -59,17 +59,17 @@ function respawnCreeps() {
     if(_.filter(Game.creeps, (creep) => creep.memory.role === 'harvester').length < config.creeps.harvesters.max){
         let newName = 'Harvester' + Game.time;
         console.log('Spawning new harvester: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,CARRY,MOVE], newName,
+        Game.spawns['HomeSpawn'].spawnCreep([WORK,CARRY,CARRY,MOVE], newName,
             {memory: {role: 'harvester'}});
     } else if(_.filter(Game.creeps, (creep) => creep.memory.role === 'upgrader').length < config.creeps.upgraders.max) {
         let newName = 'Upgrader' + Game.time;
         console.log('Spawning new upgrader: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE,MOVE], newName,
+        Game.spawns['HomeSpawn'].spawnCreep([WORK,CARRY,MOVE,MOVE,MOVE], newName,
             {memory: {role: 'upgrader'}});
     } else if(_.filter(Game.creeps, (creep) => creep.memory.role === 'builder').length < config.creeps.builders.max) {
         let newName = 'Builder' + Game.time;
         console.log('Spawning new builder: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE,MOVE,MOVE], newName,
+        Game.spawns['HomeSpawn'].spawnCreep([WORK,CARRY,MOVE,MOVE,MOVE], newName,
             {memory: {role: 'builder'}});
     }
 }
