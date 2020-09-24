@@ -17,10 +17,11 @@ var roleBuilder = {
 	    if(creep.memory.repairing) {
 	    	const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: function(object){
-                    return object.structureType === STRUCTURE_ROAD && (object.hits > object.hitsMax / 3);
+                    return object.structureType === STRUCTURE_ROAD && (object.hits < object.hitsMax / 3);
                 }
             });
-			if(typeof target !== 'undefined') {
+
+			if(target) {
                 if(creep.repair(target) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
