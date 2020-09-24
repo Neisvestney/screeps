@@ -9,7 +9,7 @@ module.exports = {
     "builders": {
       "max": 2
     },
-    "repairer": {
+    "repairers": {
       "max": 2
     }
   }
