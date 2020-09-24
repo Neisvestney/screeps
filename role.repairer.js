@@ -20,7 +20,7 @@ var roleBuilder = {
                     return object.structureType === STRUCTURE_ROAD && (object.hits > object.hitsMax / 3);
                 }
             });
-			if(target) {
+			if(typeof target !== 'undefined') {
                 if(creep.repair(target) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
