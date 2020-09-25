@@ -39,3 +39,14 @@ module.exports.findNearest = function (creep, whatFind = FIND_SOURCES, alterFind
     }
     return target;
 };
+
+module.exports.upFirst = function (string)
+{
+    return string[0].toUpperCase() + string.slice(1);
+}
+
+module.exports.bodyCost = function (body) {
+    return body.reduce(function (cost, part) {
+        return cost + BODYPART_COST[part];
+    }, 0);
+}
