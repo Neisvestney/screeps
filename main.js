@@ -1,12 +1,11 @@
+require('proto.Game');
 require('proto.Creep');
 
-const config = require('config');
 const utils = require('utils');
 
 const towerAction = require('structures.tower');
 
 module.exports.loop = function () {
-
     respawnCreeps();
 
     if (Game.spawns['HomeSpawn'].spawning) {
@@ -25,7 +24,7 @@ module.exports.loop = function () {
 function doJobs() {
     for (let name in Game.creeps) {
         const creep = Game.creeps[name];
-        const creepConfig = creep.getConfig();
+        const creepConfig = creep.config;
 
         creepConfig.trigger(creep);
 
@@ -64,8 +63,8 @@ function respawnCreeps() {
         }
     }
 
-    for (const creepName in config.creeps) {
-        const creepConfig = config.creeps[creepName];
+    for (const creepName in Game.gameConfig.creeps) {
+        const creepConfig = Game.gameConfig.creeps[creepName];
         if (_.filter(Game.creeps, (creep) => creep.memory.role === creepName).length < creepConfig.max) {
             let newName = creepName + Game.time;
             newName = utils.upFirst(newName);

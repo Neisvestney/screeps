@@ -1,5 +1,5 @@
-const config = require('config')
-
-Creep.prototype.getConfig = function () {
-    return config.creeps[this.memory.role]
-}
+Object.defineProperty(Creep.prototype, 'config', {
+    get: function () {
+        return Game.gameConfig.creeps[this.memory.role]
+    },
+});

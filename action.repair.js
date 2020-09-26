@@ -10,8 +10,8 @@ module.exports = {
         if (target) {
             if (creep.repair(target) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
-                return true
             }
+            return true
         } else {
             return false
         }
