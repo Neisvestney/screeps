@@ -3,7 +3,7 @@ module.exports = {
     do: function (creep) {
         const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: function (object) {
-                return object.structureType === STRUCTURE_ROAD && (object.hits < object.hitsMax / 3);
+                return (object.hits < object.hitsMax);
             }
         });
 

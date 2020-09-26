@@ -3,23 +3,9 @@ require('proto.Creep');
 const config = require('config');
 const utils = require('utils');
 
+const towerAction = require('structures.tower');
 
 module.exports.loop = function () {
-
-    const tower = Game.getObjectById('5ded7997c54c4cad5cf71019');
-    if (tower) {
-        const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => structure.hits < structure.hitsMax
-        });
-        if (closestDamagedStructure) {
-            //tower.repair(closestDamagedStructure);
-        }
-
-        let closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if (closestHostile) {
-            tower.attack(closestHostile);
-        }
-    }
 
     respawnCreeps();
 
@@ -33,6 +19,7 @@ module.exports.loop = function () {
     }
 
     doJobs();
+    doStructuresActions();
 };
 
 function doJobs() {
@@ -48,14 +35,24 @@ function doJobs() {
                     break;
                 }
             }
-        }
-        else {
+        } else {
             for (const work in creepConfig.refill) {
                 if (creepConfig.refill[work].do(creep)) {
                     break;
                 }
             }
         }
+    }
+}
+
+function doStructuresActions() {
+    const towers = Game.spawns['HomeSpawn'].room.find(FIND_MY_STRUCTURES, {
+        filter: {structureType: STRUCTURE_TOWER}
+    });
+
+    for (const towerName in towers) {
+        let tower = towers[towerName];
+        towerAction.do(tower);
     }
 }
 
