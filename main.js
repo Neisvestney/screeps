@@ -1,4 +1,3 @@
-require('proto.Game');
 require('proto.Creep');
 
 const utils = require('utils');
@@ -6,6 +5,8 @@ const utils = require('utils');
 const towerAction = require('structures.tower');
 
 module.exports.loop = function () {
+    require('proto.Game').apply();
+
     respawnCreeps();
 
     if (Game.spawns['HomeSpawn'].spawning) {
