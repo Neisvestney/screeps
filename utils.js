@@ -40,7 +40,7 @@ module.exports.findNearest = function (creep, whatFind = FIND_SOURCES, alterFind
         const find = creep.room.find(whatFind);
         for (let i in find) {
             let free = countFree(find[i]);
-            if (free === 0 || find[i].energy < 50)
+            if (free === 0 || find[i].energy >= 50)
                 find.splice(i);
         }
         target = creep.pos.findClosestByPath(find);
