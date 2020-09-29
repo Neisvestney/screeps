@@ -4,15 +4,26 @@ function countFree(target) {
     let free = 0;
     for (const y in look) {
         for(const x in look[y]) {
-            //console.log(JSON.stringify(look[y][x]));
+            if(look[y][x][0].type === 'energy' || look[y][x][0].type === 'resource') {
+                look[y][x].splice(0, 1);
+            }
+
+            // console.log(JSON.stringify(look[y][x]));
+
             if (look[y][x][0].type === 'terrain') {
                 if (look[y][x][0].terrain === 'plain' || look[y][x][0].terrain === 'swamp') {
                     //console.log(JSON.stringify(look[y][x][0]))
                     free++;
                 }
             }
+            if(look[y][x][0].type === 'structure') {
+                if (look[y][x][0].structure.structureType === 'road') {
+                    free++;
+                }
+            }
         }
     }
+    // console.log(free);
     return(free);
 }
 module.exports.countFree = countFree;
@@ -29,7 +40,7 @@ module.exports.findNearest = function (creep, whatFind = FIND_SOURCES, alterFind
         const find = creep.room.find(whatFind);
         for (let i in find) {
             let free = countFree(find[i]);
-            if (free === 0)
+            if (free === 0 || find[i].energy < 50)
                 find.splice(i);
         }
         target = creep.pos.findClosestByPath(find);
