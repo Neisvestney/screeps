@@ -72,14 +72,17 @@ function respawnCreeps() {
             const cost = utils.bodyCost(creepConfig.body);
             const capacity = Game.spawns['HomeSpawn'].room.energyCapacityAvailable;
 
-            console.log(`Spawning new creep: ${newName} (${Game.spawns['HomeSpawn'].room.energyAvailable}/${cost}) (Max Energy: ${capacity})`);
-
             if (cost <= capacity) {
+                console.log(`Spawning new creep: ${newName} (${Math.min(Game.spawns['HomeSpawn'].room.energyAvailable, cost)}/${cost}) (Max Energy: ${capacity})`);
                 Game.spawns['HomeSpawn'].spawnCreep(creepConfig.body, newName,
                     {memory: {role: creepName, doingJob: false}});
             } else {
-                Game.spawns['HomeSpawn'].spawnCreep(creepConfig.miniBody, newName,
-                    {memory: {role: creepName, doingJob: false}});
+                if (creepConfig.miniBody) {
+                    const miniCost = utils.bodyCost(creepConfig.miniBody);
+                    console.log(`Spawning new mini creep: ${newName} (${Math.min(Game.spawns['HomeSpawn'].room.energyAvailable, miniCost)}/${miniCost}) (Max Energy: ${capacity})`);
+                    Game.spawns['HomeSpawn'].spawnCreep(creepConfig.miniBody, newName,
+                        {memory: {role: creepName, doingJob: false}});
+                }
             }
             return;
         }
